@@ -1,36 +1,101 @@
-# Sistema de Pedidos com RabbitMQ e PHP
+# RabbitMQ Demo + Sistema de Pedidos
 
-Este projeto implementa um sistema de pedidos usando **PHP**, **RabbitMQ** e **SQLite**, com uma interface simples em **HTML/Bootstrap**. O sistema envia mensagens para filas RabbitMQ e processa essas mensagens para atualizar o status de pedidos no banco de dados.
+Este repositório contém **dois projetos distintos** que demonstram o uso do **RabbitMQ**:
 
----
-
-## Tecnologias utilizadas
-
-- PHP 8.x
-- RabbitMQ
-- SQLite
-- Bootstrap 5
-- Composer
-- PhpAmqpLib
+1. **Node.js**: Publisher/Consumer com diferentes tipos de exchanges (`fanout`, `direct`, `topic`, `headers`).  
+2. **PHP**: Sistema de pedidos simples com interface web, consumindo mensagens RabbitMQ e atualizando o banco SQLite.
 
 ---
 
-## Instalação
+## Estrutura do Repositório
 
-1. Clone o repositório:
+.
+├── js/ # Projeto Node.js com publishers e consumers
+├── php/ # Projeto PHP com sistema de pedidos
+└── README.md
 
-```bash
-git clone https://github.com/seu-usuario/seu-projeto.git
-cd seu-projeto
 
-Instale as dependências com Composer:
+---
+
+## 1️⃣ Projeto Node.js (RabbitMQ Demo)
+
+### Descrição
+Exemplo de publisher e múltiplos consumers para entender padrões de mensageria em Node.js usando RabbitMQ.
+
+### Pré-requisitos
+- Node.js >= 18
+- RabbitMQ rodando localmente (`amqp://guest:guest@localhost:5672`)  
+  ou via Docker:
+  ```bash
+  docker run -d --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+
+
+Instalação
+cd js
+npm install
+
+Scripts
+
+Publishers
+
+npm run publish-fanout     # Envia mensagem para exchange fanout
+npm run publish-direct     # Envia mensagem para exchange direct
+npm run publish-topic      # Envia mensagem para exchange topic
+npm run publish-headers    # Envia mensagem para exchange headers
+
+Consumers
+npm run consume-financeiro  # Consome mensagens relacionadas ao financeiro
+npm run consume-estoque     # Consome mensagens relacionadas ao estoque
+npm run consume-fiscal      # Consome mensagens relacionadas à nota fiscal
+
+Monitor
+
+npm run monitor             # Observa atividades no RabbitMQ
+
+
+Estrutura
+
+js/
+├── publisher-fanout.js
+├── publisher-direct.js
+├── publisher-topic.js
+├── publisher-headers.js
+├── consumer_financeiro.js
+├── consumer_estoque.js
+├── consumer_nota_fiscal.js
+├── monitor-rabbitmq.js
+├── package.json
+└── README.md
+
+2️⃣ Projeto PHP (Sistema de Pedidos)
+Descrição
+
+Sistema de pedidos usando PHP, RabbitMQ e SQLite, com interface web em HTML/Bootstrap.
+
+Tecnologias
+
+PHP 8.x
+
+RabbitMQ
+
+SQLite
+
+Bootstrap 5
+
+Composer
+
+PhpAmqpLib
+
+Instalação
+
+cd php
 composer install
 
 
-Configure o RabbitMQ (via Docker recomendado):
+Configure RabbitMQ (Docker recomendado):
 docker run -d --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 
-Verifique se o banco de dados SQLite existe em db/pedidos.db. Caso não exista, crie a tabela Pedidos
+Crie o banco SQLite se não existir (db/pedidos.db):
 
 CREATE TABLE Pedidos (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -42,33 +107,24 @@ CREATE TABLE Pedidos (
 
 
 Como usar
-Interface web
 
-Abra o arquivo public/index.html no navegador.
-Você poderá:
+Interface Web
 
-Inserir novos pedidos.
+Abra public/index.html no navegador
 
-Visualizar o status dos pedidos em tempo real (atualização a cada 7 segundos).
+Inserir novos pedidos
+
+Visualizar status atualizado a cada 7 segundos
 
 Scripts PHP
 
-store pedido: envia o pedido para o RabbitMQ e persiste no banco.
+store_pedido.php → envia pedidos para RabbitMQ e salva no banco
 
-consumers: três scripts separados para processar as filas RabbitMQ:
+Consumers:
 
-receivePedido.php → Atualiza payment
-
-receiveDistributor.php → Atualiza distributor
-
-receiveEmail.php → Atualiza email
-
-Executar cada consumer via terminal:
-
-php receivePedido.php
-php receiveDistributor.php
-php receiveEmail.php
-
+php receivePedido.php       # Atualiza payment
+php receiveDistributor.php  # Atualiza distributor
+php receiveEmail.php        # Atualiza email
 
 Configuração RabbitMQ
 
@@ -80,9 +136,9 @@ Usuário: guest
 
 Senha: guest
 
-As filas usadas são:
+Filas
 
-pedido_exchange (tipo fanout)
+pedido_exchange (fanout)
 
 payment_queue
 
@@ -92,17 +148,18 @@ email_queue
 
 Observações
 
-Mensagens são persistentes (delivery_mode = 2) para garantir confiabilidade.
+Mensagens persistentes (delivery_mode = 2) para confiabilidade
 
-O front-end usa AJAX para interagir com a API PHP.
+Front-end usa AJAX para interagir com a API PHP
 
-O sistema foi testado em Windows e Docker para RabbitMQ.
+Testado em Windows e Docker
+
+Autor
+
+Daniel Carro
 
 Licença
 
-MIT License
+Projeto Node.js: ISC
 
-
----
-
-
+Projeto PHP: MIT
