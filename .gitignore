@@ -1,0 +1,36 @@
+# -----------------------
+# Node.js / npm
+# -----------------------
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+package-lock.json
+yarn.lock
+
+# -----------------------
+# Composer / PHP
+# -----------------------
+vendor/
+composer.lock
+
+# -----------------------
+# IDEs / Editor
+# -----------------------
+.idea/
+.vscode/
+*.sublime-workspace
+*.sublime-project
+
+# -----------------------
+# Sistema Operacional
+# -----------------------
+.DS_Store
+Thumbs.db
+
+# -----------------------
+# Logs e temporários
+# -----------------------
+*.log
+*.cache
+*.tmp

@@ -1,0 +1,17 @@
+{
+    "name": "danbravo/fila-rabbitmq",
+    "authors": [
+        {
+            "name": "danbravo",
+            "email": "danbravo.perfil@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "App\\": "app"
+        }
+    },
+    "require": {
+        "php-amqplib/php-amqplib": ">=4.1.3" 
+    }
+}

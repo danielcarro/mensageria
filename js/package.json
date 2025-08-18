@@ -1,0 +1,19 @@
+{
+  "name": "rabbitmq-demo",
+  "version": "1.0.0",
+  "description": "Exemplo simples de publisher e múltiplos consumers com RabbitMQ",
+  "main": "publisher.js",
+  "scripts": {
+    "publish": "node publisher.js",
+    "consume-fin": "node consumer_financeiro.js",
+    "consume-est": "node consumer_estoque.js",
+    "consume-fis": "node consumer_nota_fiscal.js",
+    "start": "npm run publish"
+  },
+  "keywords": ["rabbitmq", "amqp", "mensageria", "fila"],
+  "author": "Daniel Carro",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.10.3"
+  }
+}
