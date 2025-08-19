@@ -1,165 +1,69 @@
 # RabbitMQ Demo + Sistema de Pedidos
 
-Este repositório contém **dois projetos distintos** que demonstram o uso do **RabbitMQ**:
+## Visão Geral
 
-1. **Node.js**: Publisher/Consumer com diferentes tipos de exchanges (`fanout`, `direct`, `topic`, `headers`).  
-2. **PHP**: Sistema de pedidos simples com interface web, consumindo mensagens RabbitMQ e atualizando o banco SQLite.
+Este repositório combina duas tecnologias para demonstrar um sistema completo de mensageria com RabbitMQ:
 
----
+### 🟢 Projeto Node.js
+- Implementação completa dos 4 tipos de exchanges RabbitMQ:
+  - `fanout` para broadcast
+  - `direct` para roteamento direto
+  - `topic` para padrões complexos
+  - `headers` para filtragem por metadados
+- Sistema de publishers e consumers resiliente
+- Painel de monitoramento integrado
 
-## Estrutura do Repositório
+### 🟠 Projeto PHP
+- Interface web para gestão de pedidos
+- Worker assíncrono para processamento
+- Armazenamento em SQLite
+- Integração bidirecional com Node.js via RabbitMQ
 
-.
-├── js/ # Projeto Node.js com publishers e consumers
-├── php/ # Projeto PHP com sistema de pedidos
-└── README.md
+## 📦 Estrutura do Projeto
 
+```
+rabbitmq-demo/
+├── node-app/          # Aplicação Node.js
+│   ├── src/           # Código fonte
+│   └── tests/         # Testes unitários
+│
+├── php-app/           # Aplicação PHP 
+│   ├── public/        # Frontend web
+│   ├── src/           # Lógica de negócio
+│   └── workers/       # Processadores assíncronos
+│
+└── docker-compose.yml # Configuração Docker
+```
 
----
+## 🚀 Como Executar
 
-## 1️⃣ Projeto Node.js (RabbitMQ Demo)
+1. Inicie os containers:
+```bash
+docker-compose up -d
+```
 
-### Descrição
-Exemplo de publisher e múltiplos consumers para entender padrões de mensageria em Node.js usando RabbitMQ.
-
-### Pré-requisitos
-- Node.js >= 18
-- RabbitMQ rodando localmente (`amqp://guest:guest@localhost:5672`)  
-  ou via Docker:
-  ```bash
-  docker run -d --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
-
-
-Instalação
-cd js
+2. Configure as aplicações:
+```bash
+# Node.js
+cd node-app
 npm install
 
-Scripts
-
-Publishers
-
-npm run publish-fanout     # Envia mensagem para exchange fanout
-npm run publish-direct     # Envia mensagem para exchange direct
-npm run publish-topic      # Envia mensagem para exchange topic
-npm run publish-headers    # Envia mensagem para exchange headers
-
-Consumers
-npm run consume-financeiro  # Consome mensagens relacionadas ao financeiro
-npm run consume-estoque     # Consome mensagens relacionadas ao estoque
-npm run consume-fiscal      # Consome mensagens relacionadas à nota fiscal
-
-Monitor
-
-npm run monitor             # Observa atividades no RabbitMQ
-
-
-Estrutura
-
-js/
-├── publisher-fanout.js
-├── publisher-direct.js
-├── publisher-topic.js
-├── publisher-headers.js
-├── consumer_financeiro.js
-├── consumer_estoque.js
-├── consumer_nota_fiscal.js
-├── monitor-rabbitmq.js
-├── package.json
-└── README.md
-
-2️⃣ Projeto PHP (Sistema de Pedidos)
-Descrição
-
-Sistema de pedidos usando PHP, RabbitMQ e SQLite, com interface web em HTML/Bootstrap.
-
-Tecnologias
-
-PHP 8.x
-
-RabbitMQ
-
-SQLite
-
-Bootstrap 5
-
-Composer
-
-PhpAmqpLib
-
-Instalação
-
-cd php
+# PHP
+cd php-app
 composer install
+```
 
+3. Acesse as interfaces:
+- **PHP Frontend**: http://localhost:8080
+- **Node.js Monitor**: http://localhost:3000/monitor
+- **RabbitMQ Management**: http://localhost:15672 (admin/admin)
 
-Configure RabbitMQ (Docker recomendado):
-docker run -d --hostname rabbitmq --name rabbitmq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+## 📜 Licenças
 
-Crie o banco SQLite se não existir (db/pedidos.db):
+- **Node.js**: [Licença ISC](https://opensource.org/licenses/ISC)
+- **PHP**: [Licença MIT](https://opensource.org/licenses/MIT)
 
-CREATE TABLE Pedidos (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  produtos TEXT,
-  email INTEGER DEFAULT 0,
-  distributor INTEGER DEFAULT 0,
-  payment INTEGER DEFAULT 0
-);
-
-
-Como usar
-
-Interface Web
-
-Abra public/index.html no navegador
-
-Inserir novos pedidos
-
-Visualizar status atualizado a cada 7 segundos
-
-Scripts PHP
-
-store_pedido.php → envia pedidos para RabbitMQ e salva no banco
-
-Consumers:
-
-php receivePedido.php       # Atualiza payment
-php receiveDistributor.php  # Atualiza distributor
-php receiveEmail.php        # Atualiza email
-
-Configuração RabbitMQ
-
-Host: 127.0.0.1
-
-Porta: 5672
-
-Usuário: guest
-
-Senha: guest
-
-Filas
-
-pedido_exchange (fanout)
-
-payment_queue
-
-distributor_queue
-
-email_queue
-
-Observações
-
-Mensagens persistentes (delivery_mode = 2) para confiabilidade
-
-Front-end usa AJAX para interagir com a API PHP
-
-Testado em Windows e Docker
-
-Autor
+## 👨💻 Autor
 
 Daniel Carro
 
-Licença
-
-Projeto Node.js: ISC
-
-Projeto PHP: MIT

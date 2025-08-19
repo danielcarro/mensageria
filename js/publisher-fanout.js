@@ -1,7 +1,7 @@
 const amqp = require('amqplib');
 
 async function publishMessage() {
-    const exchange = "pedidos"; // exchange principal
+    const exchange = "pedidos_fanout"; // exchange principal
     const message = {
         idPedido: 12345,
         cliente: { nome: "João Silva", email: "joao.silva@example.com" },

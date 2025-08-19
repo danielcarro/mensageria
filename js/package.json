@@ -4,13 +4,14 @@
   "description": "Exemplo de publisher / exchanges e múltiplos consumers com RabbitMQ",
   "main": "monitor-rabbitmq.js",
   "scripts": {
-    "publish-fanout": "node publisher-fanout.js",
-    "publish-direct": "node publisher-direct.js",
-    "publish-topic": "node publisher-topic.js",
-    "publish-headers": "node publisher-headers.js",
-    "consume-financeiro": "node consumer_financeiro.js",
-    "consume-estoque": "node consumer_estoque.js",
-    "consume-fiscal": "node consumer_nota_fiscal.js",
+    "publisher-fanout": "node publisher-fanout.js",
+    "publisher-direct": "node publisher-direct.js",
+    "publisher-topic": "node publisher-topic.js",
+    "publisher-headers": "node publisher-headers.js",
+    "consumer-all": "node consumer.js",
+    "consumer-financeiro": "node consumer_financeiro.js",
+    "consumer-estoque": "node consumer_estoque.js",
+    "consumer-fiscal": "node consumer_nota_fiscal.js",
     "monitor": "node monitor-rabbitmq.js",
    
     "start": "npm run monitor"

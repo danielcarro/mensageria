@@ -1,7 +1,7 @@
 const amqp = require('amqplib');
 
 async function consumeNotaFiscal() {
-    const exchange = "pedidos";
+    const exchange = "pedidos_fanout";
     const queue = "fila_nota_fiscal";
 
     try {

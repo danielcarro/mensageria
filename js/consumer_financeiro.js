@@ -1,7 +1,7 @@
 const amqp = require('amqplib');
 
 async function consumeFinanceiro() {
-    const exchange = "pedidos";
+    const exchange = "pedidos_fanout";
     const queue = "fila_financeiro";
 
     try {

@@ -2,7 +2,7 @@ const amqp = require('amqplib');
 
 async function publishTopic() {
     const exchange = "pedidos_topic";
-    const routingKey = "pedido.novo.cartao"; // pode usar padrões * e #
+    const routingKey = "pedido.novo.cartao";
     const message = { texto: "Mensagem topic", metodo: "cartao" };
 
     try {
@@ -13,9 +13,10 @@ async function publishTopic() {
         channel.publish(exchange, routingKey, Buffer.from(JSON.stringify(message)));
 
         console.log("📤 Topic enviado:", message);
-
-        await channel.close();
-        await connection.close();
+        setTimeout(() => {
+            channel.close();
+            connection.close();
+        }, 500);
     } catch (error) {
         console.error(error);
     }

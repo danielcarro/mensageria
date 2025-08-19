@@ -1,7 +1,7 @@
 const amqp = require('amqplib');
 
 async function consumeEstoque() {
-    const exchange = "pedidos";
+    const exchange = "pedidos_fanout";
     const queue = "fila_estoque";
 
     try {

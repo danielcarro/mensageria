@@ -2,23 +2,25 @@ const amqp = require('amqplib');
 
 async function publishDirect() {
     const exchange = "pedidos_direct";
-    const routingKey = "pagamento_aprovado"; // envia só para filas que usam essa chave
-    const message = { texto: "Mensagem direct", status: "aprovado" };
 
-    try {
-        const connection = await amqp.connect('amqp://guest:guest@localhost:5672');
-        const channel = await connection.createChannel();
+    const mensagens = [
+        { key: "pagamento_aprovado", conteudo: { pedido: 101, status: "aprovado" } },
+        { key: "estoque_reservado", conteudo: { pedido: 101, itens: 3 } },
+        { key: "nota_emitida", conteudo: { pedido: 101, numero: "NF-2025" } },
+    ];
 
-        await channel.assertExchange(exchange, 'direct', { durable: false });
-        channel.publish(exchange, routingKey, Buffer.from(JSON.stringify(message)));
+    const connection = await amqp.connect('amqp://guest:guest@127.0.0.7:5672');
+    const channel = await connection.createChannel();
 
-        console.log("📤 Direct enviado:", message);
+    await channel.assertExchange(exchange, 'direct', { durable: false });
 
-        await channel.close();
-        await connection.close();
-    } catch (error) {
-        console.error(error);
+    for (const msg of mensagens) {
+        channel.publish(exchange, msg.key, Buffer.from(JSON.stringify(msg.conteudo)));
+        console.log(`📤 Enviado (${msg.key}):`, msg.conteudo);
     }
+
+    await channel.close();
+    await connection.close();
 }
 
 publishDirect();
