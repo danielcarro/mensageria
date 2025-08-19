@@ -70,6 +70,17 @@ rabbitmq-demo/
 └── README.md
 ```
 
+```bash
+#  Docker
+Start-Process "C:\Program Files\Docker\Docker\Docker Desktop.exe"
+
+
+docker info
+
+docker start id_ou_nome_container
+
+```
+
 ## 📜 Scripts Disponíveis
 
 | Comando | Descrição |
@@ -85,54 +96,8 @@ rabbitmq-demo/
 | `npm run test` | Executa testes unitários |
 | `npm run lint` | Verifica qualidade de código |
 
-## 💡 Exemplo de Uso
 
-### 1. Publicando Mensagens
 
-```javascript
-// Exemplo: publisher para pedidos
-const { publish } = require('./lib/rabbitmq');
-
-async function sendOrder(order) {
-  await publish('orders.direct', 'order.created', order, {
-    headers: {
-      priority: 'high',
-      department: 'finance'
-    }
-  });
-}
-```
-
-### 2. Consumindo Mensagens
-
-```javascript
-// Consumer de financeiro
-const { consume } = require('../lib/rabbitmq');
-
-consume('finance.queue', async (message) => {
-  const order = JSON.parse(message.content);
-  console.log('Processando pagamento para pedido:', order.id);
-  // Lógica de processamento...
-}, { 
-  exchange: 'orders.direct',
-  routingKey: 'order.created',
-  headers: { department: 'finance' }
-});
-```
-
-## 📊 Monitoramento
-
-Acesse o painel de monitoramento em:
-```
-http://localhost:15672
-usuário: admin
-senha: admin
-```
-
-Ou use nosso dashboard customizado:
-```bash
-npm run start:monitor
-```
 
 ## 🛡️ Tratamento de Erros
 
