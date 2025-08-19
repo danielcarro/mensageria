@@ -153,25 +153,7 @@ setInterval(() => {
 }, 5000);
 ```
 
-## 🧪 Testes
 
-Execute a suíte completa de testes:
-```bash
-npm test
-```
-
-Testes incluem:
-- Testes de integração com RabbitMQ
-- Testes de comportamento dos consumers
-- Testes de resiliência
-
-## 🤝 Contribuição
-
-1. Faça um fork do projeto
-2. Crie sua branch (`git checkout -b feature/awesome-feature`)
-3. Commit suas mudanças (`git commit -am 'Add awesome feature'`)
-4. Push para a branch (`git push origin feature/awesome-feature`)
-5. Abra um Pull Request
 
 ## 📄 Licença
 
