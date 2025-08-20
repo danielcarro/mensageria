@@ -1,0 +1,9 @@
+{
+  "amqp": "amqp://127.0.0.7",
+  "queue": "nodemailer-amqp",
+
+  "server": {
+    "port": 15672,
+    "host": "127.0.0.1"
+  }
+}
